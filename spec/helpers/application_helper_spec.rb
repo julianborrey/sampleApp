@@ -11,7 +11,7 @@ describe ApplicationHelper do
          expect(full_title("foo")).to match(/^Ruby on Rails Tute - Sample App/);
       end
 
-      it "should not include a bar for the home page"
+      it "should not include a bar for the home page" do
          expect(full_title("")).not_to match(/\|/);
       end
    end
