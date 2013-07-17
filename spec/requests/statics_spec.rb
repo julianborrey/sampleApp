@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "Static pages" do
 
+  ###############   Page Mechanics Tests #################
   subject { page }
 
   describe "Home page" do
@@ -32,4 +33,30 @@ describe "Static pages" do
     it { should have_content('Contact') }
     it { should have_title(full_title('Contact')) }
   end
+  
+  
+  ######## Checking Links are Correctly Mapped ########
+  describe "Static pages" do
+    it "should have the right links to the layout" do
+      visit root_path
+
+      click_link "About" #go to page and click link
+      expect(page).to have_title(full_title('About Us')); #check CURRENT page now has the correct title
+      
+      click_link "Help"
+      expect(page).to have_title(full_title('Help'));
+      
+      click_link "Contact"
+      expect(page).to have_title(full_title('Contact'));
+      expect(page).to have_content('about the sample'); #fragment of text
+      
+      click_link "Home" #we are actually traversing. goes to home first
+      click_link "Sign up now!" #then goes to this button
+      expect(page).to have_title(full_title('Sign up'));
+      
+      click_link "sample app"
+      expect(page).to have_title(full_title(''));
+    end
+  end
+
 end
