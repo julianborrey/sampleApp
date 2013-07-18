@@ -11,9 +11,10 @@ class UsersController < ApplicationController
       @user = User.new(user_params) #user_params comes from pirvate foo
 
       if @user.save #if save successful (doesn't return false/nil)
-         #...
+         flash[:success] = "Welcome to the Sample App!"
+         redirect_to(@user) #not even using "user_url"
       else
-         render 'new' #show the form again
+         render 'new' #build an another new object??
       end
    end
    
