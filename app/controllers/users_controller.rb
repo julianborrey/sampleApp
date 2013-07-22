@@ -14,7 +14,7 @@ class UsersController < ApplicationController
          flash[:success] = "Welcome to the Sample App!"
          redirect_to(@user) #not even using "user_url"
       else
-         render 'new' #build an another new object??
+         render 'new' #render the new.html.erb template
       end
    end
    
