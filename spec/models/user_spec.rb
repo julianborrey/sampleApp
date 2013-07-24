@@ -9,13 +9,14 @@ describe User do
    subject { @user }
    
    #do some testing. Just checks that these fields exist.
-   it { should respond_to(:name)  }
-   it { should respond_to(:email) }
-   it { should respond_to(:password_digest) }
-   it { should respond_to(:password) }
+   it { should respond_to(:name)                  }
+   it { should respond_to(:email)                 }
+   it { should respond_to(:password_digest)       }
+   it { should respond_to(:password)              }
    it { should respond_to(:password_confirmation) }
-   it { should respond_to(:authenticate) }
-   it { should respond_to(:remember_token) }
+   it { should respond_to(:authenticate)          }
+   it { should respond_to(:remember_token)        }
+   it { should respond_to(:admin)                 }
 
    ###Note: we could have used the RSpec code to do the same tests
    #it "should have field 'name'" do
@@ -23,6 +24,16 @@ describe User do
    #end
    
    it {should be_valid } #checks the data input is valid 
+   it {should_not be_admin } #by default is not admin
+   
+   describe "with admin attribute set to 'true'" do
+      before do
+         @user.save!
+         @user.toggle!(:admin)
+      end
+
+      it { should be_admin }
+   end
    
    ### Check that validation functions are working ###
    ## Name validations
