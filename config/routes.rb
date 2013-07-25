@@ -1,7 +1,7 @@
 SampleApp::Application.routes.draw do
    resources :users #allows URL reflected user
    resources :sessions, only: [:new, :create, :destroy]
-   
+   resources :microposts, only: [:create, :destroy] 
    root 'static_page#home'
    
    match '/signup',  to: 'users#new',           via: 'get'

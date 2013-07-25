@@ -7,7 +7,7 @@ class UsersController < ApplicationController
    def index
       @users = User.paginate(page: params[:page])
    end
-   
+
    def show
       @user = User.find(params[:id])
       @microposts = @user.microposts.paginate(page: params[:page])
@@ -16,14 +16,14 @@ class UsersController < ApplicationController
    def new
       @user = User.new
    end
-   
+
    def admin_user
       redirect_to(root_path) unless current_user.admin?
    end
    
    def create
       @user = User.new(user_params) #user_params comes from pirvate foo
-      
+
       if @user.save #if save successful (doesn't return false/nil)
          sign_in @user
          flash[:success] = "Welcome to the Sample App!"
@@ -32,17 +32,17 @@ class UsersController < ApplicationController
          render 'new' #render the new.html.erb template
       end
    end
-   
+
    def destroy
       User.find(params[:id]).destroy
       flash[:success] = "User destroyed."
       redirect_to users_url
    end
-   
+
    def edit
      #@user = User.find(params[:id])
    end
-   
+
    def update
       #@user = User.find(params[:id])
       if @user.update_attributes(user_params)
@@ -61,8 +61,16 @@ class UsersController < ApplicationController
          params.require(:user).permit(:name, :email, :password,
                                       :password_confirmation, :admin)
       end
-   
+
       ### before filters ###
+
+      def signed_in_user
+         store_location
+         redirect_to signin_url, notice: "Please sign in." unless signed_in?
+         #we are adding an option to the redirect_to function which is a hash
+         #it updates the flash[] hash
+      end
+      
       def correct_user
          @user = User.find(params[:id])
          redirect_to(root_path) unless current_user?(@user)
